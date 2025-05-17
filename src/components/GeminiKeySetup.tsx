@@ -26,19 +26,23 @@ export function GeminiKeySetup() {
           'Content-Type': 'application/json',
           'x-gemini-key': key
         },
-        body: JSON.stringify({ message: 'مرحباً' }),
+        body: JSON.stringify({ message: "TEST_API_KEY" }),
       });
+
+      const data = await response.json();
 
       if (response.ok) {
         localStorage.setItem("gemini-api-key", key);
         setApiKey(key);
         setIsFirstVisit(false);
       } else {
-        const data = await response.json();
         setError(data.error || 'مفتاح API غير صالح');
+        localStorage.removeItem("gemini-api-key");
       }
     } catch (err) {
-      setError('حدث خطأ أثناء التحقق من مفتاح API');
+      console.error('Error validating API key:', err);
+      setError('حدث خطأ أثناء التحقق من المفتاح');
+      localStorage.removeItem("gemini-api-key");
     } finally {
       setIsValidating(false);
     }
@@ -46,7 +50,11 @@ export function GeminiKeySetup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await validateApiKey(apiKey);
+    if (!apiKey.trim()) {
+      setError('يرجى إدخال مفتاح API');
+      return;
+    }
+    await validateApiKey(apiKey.trim());
   };
 
   if (!isFirstVisit && !error) return null;
@@ -84,7 +92,7 @@ export function GeminiKeySetup() {
           </div>
           <button
             type="submit"
-            disabled={isValidating}
+            disabled={isValidating || !apiKey.trim()}
             className="w-full bg-gold-500 text-black py-3 px-4 rounded-lg hover:bg-gold-600 transition-colors disabled:opacity-50"
           >
             {isValidating ? 'جاري التحقق...' : 'حفظ المفتاح'}
