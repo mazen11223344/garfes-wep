@@ -6,7 +6,7 @@ export function GeminiKeySetup() {
   const [apiKey, setApiKey] = useState("");
   const [isFirstVisit, setIsFirstVisit] = useState(true);
   const [isValidating, setIsValidating] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<{ message: string; details?: string } | null>(null);
 
   useEffect(() => {
     const storedKey = localStorage.getItem("gemini-api-key");
@@ -17,7 +17,7 @@ export function GeminiKeySetup() {
 
   const validateApiKey = async (key: string) => {
     setIsValidating(true);
-    setError("");
+    setError(null);
 
     try {
       const response = await fetch('/api/chat', {
@@ -36,12 +36,18 @@ export function GeminiKeySetup() {
         setApiKey(key);
         setIsFirstVisit(false);
       } else {
-        setError(data.error || 'مفتاح API غير صالح');
+        setError({
+          message: data.error,
+          details: data.details
+        });
         localStorage.removeItem("gemini-api-key");
       }
     } catch (err) {
       console.error('Error validating API key:', err);
-      setError('حدث خطأ أثناء التحقق من المفتاح');
+      setError({
+        message: 'حدث خطأ أثناء التحقق من المفتاح',
+        details: err instanceof Error ? err.message : 'خطأ غير معروف'
+      });
       localStorage.removeItem("gemini-api-key");
     } finally {
       setIsValidating(false);
@@ -51,7 +57,9 @@ export function GeminiKeySetup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!apiKey.trim()) {
-      setError('يرجى إدخال مفتاح API');
+      setError({
+        message: 'يرجى إدخال مفتاح API'
+      });
       return;
     }
     await validateApiKey(apiKey.trim());
@@ -75,6 +83,14 @@ export function GeminiKeySetup() {
             Google AI Studio
           </a>
         </p>
+        <div className="mb-4 text-right">
+          <p className="text-sm text-black/70 dark:text-white/70">تأكد من:</p>
+          <ul className="list-disc list-inside text-sm text-black/70 dark:text-white/70 space-y-1 mt-2">
+            <li>نسخ المفتاح بشكل صحيح</li>
+            <li>تفعيل Gemini API في مشروعك</li>
+            <li>عدم تجاوز الحد الأقصى للاستخدام</li>
+          </ul>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <input
@@ -87,7 +103,12 @@ export function GeminiKeySetup() {
               dir="rtl"
             />
             {error && (
-              <p className="mt-2 text-red-500 text-right text-sm">{error}</p>
+              <div className="mt-2 text-right">
+                <p className="text-red-500 text-sm">{error.message}</p>
+                {error.details && (
+                  <p className="text-red-400 text-xs mt-1">{error.details}</p>
+                )}
+              </div>
             )}
           </div>
           <button
