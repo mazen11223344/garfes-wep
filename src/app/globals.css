@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 20%; /* Dark Gray #333333 */
+    --foreground: 0 0% 87%; /* Light Gray #DDDDDD */
+
+    --card: 0 0% 16%; /* Slightly darker than background */
+    --card-foreground: 0 0% 87%;
+
+    --popover: 0 0% 14%;
+    --popover-foreground: 0 0% 87%;
+
+    --primary: 183 95% 74%; /* Electric Blue #7DF9FF */
+    --primary-foreground: 0 0% 10%; /* Dark text for blue buttons */
+
+    --secondary: 0 0% 25%; /* Slightly lighter dark gray for secondary elements */
+    --secondary-foreground: 0 0% 87%;
+
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 60%; /* Slightly dimmer light gray */
+
+    --accent: 183 95% 74%; /* Electric Blue */
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 70% 50%; /* A standard red */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 30%; /* Subtle border */
+    --input: 0 0% 27%; /* Input background slightly different from border */
+    --ring: 183 95% 60%; /* Slightly darker blue for rings */
+
+    --radius: 0.5rem;
+
+    /* Chart colors can remain default or be adjusted if charts are used extensively */
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+
+    /* Sidebar specific colors, might not be heavily used in a CLI-like interface but good to keep defined */
+    --sidebar-background: 0 0% 18%;
+    --sidebar-foreground: 0 0% 80%;
+    --sidebar-primary: 183 95% 74%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 0 0% 22%;
+    --sidebar-accent-foreground: 0 0% 87%;
+    --sidebar-border: 0 0% 28%;
+    --sidebar-ring: 183 95% 60%;
+  }
+
+  .dark {
+    /* For dark mode, we are already designing for dark, so these could be variations or identical */
+    --background: 0 0% 20%;
+    --foreground: 0 0% 87%;
+
+    --card: 0 0% 16%;
+    --card-foreground: 0 0% 87%;
+
+    --popover: 0 0% 14%;
+    --popover-foreground: 0 0% 87%;
+
+    --primary: 183 95% 74%;
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 0 0% 25%;
+    --secondary-foreground: 0 0% 87%;
+
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 183 95% 74%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 30%;
+    --input: 0 0% 27%;
+    --ring: 183 95% 60%;
+
+    /* Adjust chart colors for dark theme if needed */
+    --chart-1: 183 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    
+    --sidebar-background: 0 0% 18%;
+    --sidebar-foreground: 0 0% 80%;
+    --sidebar-primary: 183 95% 74%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 0 0% 22%;
+    --sidebar-accent-foreground: 0 0% 87%;
+    --sidebar-border: 0 0% 28%;
+    --sidebar-ring: 183 95% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-mono; /* Ensure monospace font is default */
+  }
+}
