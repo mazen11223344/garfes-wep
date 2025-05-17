@@ -1,4 +1,6 @@
 // src/components/MessageBubble.tsx
+"use client";
+
 import type { Message } from "@/types";
 import { cn } from "@/lib/utils";
 import { Bot, User } from "lucide-react"; 
